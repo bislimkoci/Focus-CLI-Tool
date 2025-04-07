@@ -4,12 +4,19 @@ import main.java.com.focus.Focus;
 import main.java.com.focus.Timers.TimerInterface;
 
 public class CommandFactory {
+
     public CommandInterface createCommand(String[] command, TimerInterface currentTimer) {
         if (command == null || command.length == 0) return null;
         
         switch (command[0].toLowerCase()) {
+            
             case "start":
-                if (command.length >= 5 && command[1].equals("-work") && command[3].equals("-rest") && Focus.getCurrentTimer() == null) {
+                if (Focus.getCurrentTimer() != null) {
+                    System.out.println("An session is already in process.");
+                    break;
+                }
+
+                if (command.length >= 5 && command[1].equals("-work") && command[3].equals("-rest")) {
                     
                     try {
                         int workTime = Integer.parseInt(command[2]);
@@ -19,11 +26,12 @@ public class CommandFactory {
                             int repeat = Integer.parseInt(command[6]);
                             return new StartRepeatCommand(workTime, restTime, repeat);
                         }
-        
                         return new StartCommand(workTime, restTime);
+
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid time format");
                     }
+
                 } else {
                     System.out.println("Usage: start -work [minutes] -rest [minutes] -repeat [amount]");
                 }

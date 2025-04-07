@@ -1,40 +1,57 @@
 package main.java.com.focus.Timers;
 
 public abstract class BaseTimer implements TimerInterface{
-    private int workTime;
-    private int restTime;
-    private Boolean isRunning;
-    private Thread workThread;
-    private Thread restThread;
-    private TimerCallback callback;
+    protected final int workTime;
+    protected final int restTime;
+    protected final TimerCallback callback;
+    protected final Object lock = new Object();
+    protected volatile Boolean isRunning;
+    protected Thread timerThread;
+    
 
     public BaseTimer(int workTime, int restTime, TimerCallback callback) {
         this.workTime = workTime * 60 * 1000;
         this.restTime = restTime * 60 * 1000;
         this.callback = callback;
         this.isRunning = false;
+        this.timerThread = new Thread();
     }
-
 
 
     @Override
+    public void start(){
+        synchronized (lock) {
+            if (isRunning) {
+                System.out.println("This timer is already running");
+                return;
+            }
+            isRunning = true;
+        }
+
+        doWorkRestPeriod();
+
+        timerThread.setDaemon(true);
+        timerThread.start();
+
+
+    }
+
+    abstract protected void doWorkRestPeriod();
+
+    @Override
     public void stop() {
-        if (!isRunning) {
-            System.out.println("No timer is currently running");
-            return;
-        }
-
-        isRunning = false;
-        interruptThread(workThread);
-        interruptThread(restThread);
-        System.out.println("Timer stopped");
-    }
-
-    protected void interruptThread(Thread thread) {
-        if (thread != null) {
-            thread.interrupt();
+        synchronized (lock) {
+            if (!isRunning) {
+                System.out.println("No timer is currently running");
+                return;
+            }
+            isRunning = false;
+            if (timerThread != null) {
+                timerThread.interrupt();
+            }
         }
     }
+
 
     @Override
     public boolean isRunning() {

@@ -1,7 +1,7 @@
 package main.java.com.focus.Commands;
 
 import main.java.com.focus.Focus;
-import main.java.com.focus.Timers.Timer;
+import main.java.com.focus.Timers.SessionTimer;
 import main.java.com.focus.Timers.TimerCallback;
 import main.java.com.focus.Timers.TimerInterface;
 
@@ -13,7 +13,7 @@ public class StartCommand implements CommandInterface {
     public StartCommand(int workTime, int restTime) {
         this.workTime = workTime;
         this.restTime = restTime;
-        this.timer = new Timer(workTime, restTime, new TimerCallback() {
+        this.timer = new SessionTimer(workTime, restTime, new TimerCallback() {
             @Override
             public void onTimerComplete() {
                 Focus.setCurrentTimer(null);

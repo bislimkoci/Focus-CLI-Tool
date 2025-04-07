@@ -3,15 +3,12 @@ import java.util.Scanner;
 
 import main.java.com.focus.Commands.CommandFactory;
 import main.java.com.focus.Commands.CommandInterface;
-import main.java.com.focus.Commands.StartCommand;
-import main.java.com.focus.Commands.StartRepeatCommand;
 import main.java.com.focus.Parsers.Parser;
 import main.java.com.focus.Parsers.ParserCommands;
 import main.java.com.focus.Timers.TimerInterface;
 
 public class Focus{
     private static TimerInterface currentTimer;
-
 
     public static void main(String[] args) { 
         System.out.println("Focus with commands: start -work[mins] -rest [mins] -repeat [amount] | stop | stats | exit");
@@ -36,6 +33,7 @@ public class Focus{
             }
             
             CommandInterface command = facotry.createCommand(commandParts, currentTimer);
+
             if (command != null) {
                 command.execute();
             }
