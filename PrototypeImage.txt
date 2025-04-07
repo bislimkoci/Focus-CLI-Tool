@@ -1,0 +1,52 @@
+
+Purpose:
+    - CLI that tracks the sessions of when you should focus and when you should take a brake.
+    - I take info about how long the session has taken been and the break taken from the session.
+    - Has info about week information and etc.
+
+
+Structure of the project:
+
+
+focustimer/
+│── src/main/java/com/focustimer/
+│   │── Main.java      # Entry point
+│   │── Timer.java     # Timer logic
+│   │── CLI.java       # Handles CLI input
+│   │── Stats.java     # Tracks session data
+│   │── Storage.java   # Saves data (SQLite/JSON)
+└── data/
+    └── sessions.db  # Data storage
+
+
+Commands:
+start	Starts a focus session
+stop	Terminates the current session
+
+
+Flags:
+-work   sets work time in minutes
+-rest   sets rest time in minutes
+-repeat sets how many times the timer should repeat with work and rest
+
+
+Tuoturial:
+start -work X -rest Y Does a work for X min and rest for Y min for 1 iteration
+start -work X -rest Y -repeat Z Does a work for X min and rest for Y min and for Z iterations
+
+
+
+To compile and run the program(linux/Mac):
+cd /path/to/your/project
+javac -d bin src/main/java/com/focus/*.java src/main/java/com/focus/**/*.java
+java -cp bin main.java.com.focus.Focus
+
+To compile and run the program(Windows):
+# Navigate to your project root (where src folder is located)
+cd path/to/your/project
+
+# Compile (if not automatic)
+javac -d bin src/main/java/com/focus/*.java src/main/java/com/focus/**/*.java
+
+# Run (from project root)
+java -cp bin main.java.com.focus.Focus
