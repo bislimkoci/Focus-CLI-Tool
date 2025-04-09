@@ -5,5 +5,11 @@ public interface TimerInterface {
 
     public void stop();
 
+    public void pause();
+
+    public void resume();
+
     public boolean isRunning();
+
+    public boolean isPaused();
 }

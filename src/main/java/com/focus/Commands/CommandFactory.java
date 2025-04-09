@@ -39,6 +39,12 @@ public class CommandFactory {
                 
             case "stop":
                 return new StopCommand(currentTimer);
+
+            case "pause":
+                return new PauseCommand(currentTimer);
+            
+            case "resume":
+                return new ResumeCommand(currentTimer);
                 
             default:
                 System.out.println("Unknown command");

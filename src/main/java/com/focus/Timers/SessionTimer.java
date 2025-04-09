@@ -12,12 +12,13 @@ public class SessionTimer extends BaseTimer{
         timerThread = new Thread(() -> {
             try {
                 System.out.println("Work period started");
-                Thread.sleep(workTime);
-
+                sleepWithPause(workTime);
+                
                 if (!isRunning) {stop();}
     
                 System.out.println("Rest period started");
-                Thread.sleep(restTime);
+                sleepWithPause(restTime);
+
 
                 if (isRunning && callback != null) {
                     callback.onTimerComplete();
@@ -33,4 +34,34 @@ public class SessionTimer extends BaseTimer{
             
         });
     }
+
+    private void sleepWithPause(int duration) throws InterruptedException {
+        int interval = 100;
+        int elapsed = 0;
+
+        while (elapsed < duration) {
+            synchronized (lock) {
+                while (isPaused) {
+                    lock.wait();
+                }
+            }
+            Thread.sleep(interval);
+            elapsed += interval;
+        }
+    }
+
+
+    public void pause() {
+        synchronized (lock) {
+            isPaused = true;
+        }
+    }
+
+    public void resume(){
+        synchronized (lock) {
+            isPaused = false;
+            lock.notifyAll();
+        }
+    }
+
 }

@@ -5,13 +5,14 @@ public abstract class BaseTimer implements TimerInterface{
     protected final int restTime;
     protected final TimerCallback callback;
     protected final Object lock = new Object();
-    protected volatile Boolean isRunning;
+    protected volatile boolean isRunning;
     protected Thread timerThread;
+    protected volatile boolean isPaused;
     
 
     public BaseTimer(int workTime, int restTime, TimerCallback callback) {
-        this.workTime = workTime * 60 * 1000;
-        this.restTime = restTime * 60 * 1000;
+        this.workTime = workTime;// * 60 * 1000;
+        this.restTime = restTime;// * 60 * 1000;
         this.callback = callback;
         this.isRunning = false;
         this.timerThread = new Thread();
@@ -57,4 +58,9 @@ public abstract class BaseTimer implements TimerInterface{
     public boolean isRunning() {
         return isRunning;
     }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
 }

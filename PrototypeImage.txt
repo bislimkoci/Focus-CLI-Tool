@@ -22,7 +22,9 @@ focustimer/
 Commands:
 start	Starts a focus session
 stop	Terminates the current session
-
+pause   Pauses the current session
+resume  Resumes the current paused session
+quit    Closes the whole app
 
 Flags:
 -work   sets work time in minutes
