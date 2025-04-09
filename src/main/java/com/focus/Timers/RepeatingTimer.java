@@ -16,15 +16,15 @@ public class RepeatingTimer extends BaseTimer{
                 while (isRunning && repeats > 0) {
                     //Working period
                     System.out.printf("Work period started (%d remaining)%n", repeats);
-                    Thread.sleep(workTime);
+                    sleepWithPause(workTime);
 
                     //Check if there has been a stop
-                    if (!isRunning) break;
+                    if (!isRunning) {stop();}
 
                     System.out.println("Rest period started");
-                    Thread.sleep(restTime);
+                    sleepWithPause(restTime);
                     
-                    if (!isRunning) break;
+                    if (!isRunning) {stop();}
 
                     repeats--;
                 }
@@ -42,18 +42,5 @@ public class RepeatingTimer extends BaseTimer{
             }
         });
     }
-
-    @Override
-    public void pause() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pause'");
-    }
-
-    @Override
-    public void resume() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resume'");
-    }
-
     
 }
